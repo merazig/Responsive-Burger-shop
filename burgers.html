@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Burgers</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                background-color: black;
+                color: white;
+            }
+
+            .container {
+                display: flex;
+                flex-wrap: wrap;
+                padding: 25px;
+            }
+
+            .ti {
+                padding-top: 30px;
+                text-align: center;
+            }
+
+            .cart {
+                width: 300px;
+                margin: 10px;
+                margin-left: 10px;
+            }
+
+            .articles {
+                display: flex;
+                flex-wrap: wrap;
+                margin-left: 10px;
+            }
+
+            .articles div {
+                width: 200px;
+                margin: 20px;
+            }
+
+            .img {
+                width: 100%;
+                border-radius: 20px;
+                box-shadow: 5px 5px 5px rgb(39, 39, 39);
+            }
+        
+            h4 {
+                text-align: center;
+            }
+
+            .choose, .btn {
+                position: relative;
+                left: 30px;
+                width: 100px;
+                height: 25px;
+                border-radius: 15px;
+                background-image: linear-gradient(to right, #9a2fff, #3724dd);
+                border-width: 0px;
+                color: beige;
+            }
+
+            .btn {
+                left: 0;
+                margin-top: 10px;
+            }
+            .choose:hover {
+                background-image: none;
+                background-color: #3121c2;
+                box-shadow: 0 0 20px rgb(29, 4, 141), 0 0 60px rgb(29, 4, 141), 0 0 60px rgb(29, 4, 141);
+            }
+
+            .modal-bg1, .modal-bg2, .modal-bg3, .modal-bg4 {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: linear-gradient(to right, rgba(58, 96, 115, 0.5), rgba(22, 34, 42, 0.5));
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                visibility: hidden;
+                opacity: 0;
+                transition: visibility 0.25s, opacity 0.75s;
+            }
+
+            .modal {
+                visibility: visible;
+                opacity: 1;
+            }
+
+            .modal1, .modal2, .modal3, .modal4 {
+                position: relative;
+                background: linear-gradient(to right, #1a1a1a, #000000);
+                width: 35%;
+                height: 40%;
+                box-shadow: 0 0 20px rgba(113, 111, 121, 0.5), 0 0 20px rgba(113, 111, 121, 0.5), 0 0 20px rgba(113, 111, 121, 0.5);
+                justify-content: center;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .lines {
+                border-top: 2px solid red;
+                margin: 5px;
+                width: 100%;
+            }
+
+            .modal-body, .modal-body div {
+                display: flex;
+                justify-content: center;
+                flex-direction: row;
+            }
+
+            .v-raw {
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+
+            .titre {
+                margin-top: 10px;
+            }
+
+            .btn-close {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                height: 25px;
+                width: 25px;
+                cursor: pointer;
+                padding-top: 5px;
+                border-radius: 5px;
+                background-color: rgb(29, 4, 141);
+            }
+
+            .btn-close:hover {
+                background-color: rgb(45, 3, 230);
+            }
+
+            li {
+                position: relative;
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+
+            button {
+                position: absolute;
+                right: 5px;
+                background-color: #9a2fff;
+                color: aliceblue;
+                text-align: center;
+                border: 0px;
+                border-radius: 4px;
+            }
+            button:hover {
+                background-color: #3121c2;
+            }
+        </style>
+    </head>
+    <body>
+        <h2 class="ti">Burgers shop</h2>
+        <div class="container">
+            <div class="articles">
+                <div>
+                    <h4 id="burger1">Burger1</h4>
+                    <img class="img" src="img/burger.jpg">
+                    <div>
+                        <button class="choose" onclick="choose(1)">Choose</button>
+                    </div>
+                </div>
+                <div>
+                    <h4 id="burger2">Burger2</h4>
+                    <img class="img" src="img/burger3.jpeg">
+                    <div>
+                        <button class="choose" onclick="choose(2)">Choose</button>
+                    </div>
+                </div>
+                <div>
+                    <h4 id="burger3">Burger3</h4>
+                    <img class="img" src="img/burger5.jpeg">
+                    <div>
+                        <button class="choose" onclick="choose(3)">Choose</button>
+                    </div>
+                </div>
+                <div>
+                    <h4 id="burger4">Burger4</h4>
+                    <img class="img" src="img/burger6.jpeg">
+                    <div>
+                        <button class="choose" onclick="choose(4)">Choose</button>
+                    </div>
+                </div>
+            </div>
+            <div class="cart">
+                <h2 class="ti">
+                    <img src="https://img.icons8.com/doodle/24/000000/hamburger.png">
+                    My Burgers
+                    <img src="https://img.icons8.com/doodle/24/000000/hamburger.png">
+                </h2>
+                <ul class="items" id="items">
+
+                </ul>
+                <h3 id="total" style="text-align: right;">Total: 0 $</h3>
+            </div>
+        </div>
+        <div class="modal-bg1">
+            <div class="modal1">
+                <h4 class="titre">Raw vegetbales</h4>
+                <span class="lines"></span>
+                <div class="modal-body">
+                    <div class="v-raw">
+                        <input type="checkbox" value="salad" name="vege1">
+                        <img src="https://img.icons8.com/color/24/000000/lettuce.png">
+                    </div>
+                    <div class="v-raw">
+                        <input type="checkbox" value="tomato" name="vege1">
+                        <img src="https://img.icons8.com/emoji/24/000000/tomato-emoji.png">
+                    </div>
+                    <div class="v-raw">
+                        <input type="checkbox" value="onion" name="vege1">
+                        <img src="https://img.icons8.com/emoji/24/000000/onion-emoji.png">
+                    </div>
+                </div>
+                <span class="lines"></span>
+                <h4 class="titre">Burger size</h4>
+                <span class="lines"></span>
+                <div>
+                    <input type="radio" name="size1" id="medium1" value="5" checked>
+                    <label for="medium1">M: 5 $</label>
+                    <input type="radio" name="size1" id="large1" value="8">
+                    <label for="large1">L: 8 $</label>
+                </div>
+                <span class="lines"></span>
+                <button class="btn" onclick="addBurger(1)">Add to cart</button>
+                <span class="btn-close" onclick="closeM()">x</span> 
+            </div>
+        </div>
+        <div class="modal-bg2">
+            <div class="modal2">
+                <h4 class="titre">Raw vegetbales</h4>
+                <span class="lines"></span>
+                <div class="modal-body">
+                    <div class="v-raw">
+                        <input type="checkbox" value="salad" name="vege2">
+                        <img src="https://img.icons8.com/color/24/000000/lettuce.png">
+                    </div>
+                    <div class="v-raw">
+                        <input type="checkbox" value="tomato" name="vege2">
+                        <img src="https://img.icons8.com/emoji/24/000000/tomato-emoji.png">
+                    </div>
+                    <div class="v-raw">
+                        <input type="checkbox" value="onion" name="vege2">
+                        <img src="https://img.icons8.com/emoji/24/000000/onion-emoji.png">
+                    </div>
+                </div>
+                <span class="lines"></span>
+                <h4 class="titre">Burger size</h4>
+                <span class="lines"></span>
+                <div>
+                    <input type="radio" name="size2" id="medium2" value="6" checked>
+                    <label for="medium2">M: 6 $</label>
+                    <input type="radio" name="size2" id="large2" value="9">
+                    <label for="large2">L: 9 $</label>
+                </div>
+                <span class="lines"></span>
+                <button class="btn" onclick="addBurger(2)">Add to cart</button>
+                <span class="btn-close" onclick="closeM()">x</span> 
+            </div>
+        </div>
+        <div class="modal-bg3">
+            <div class="modal3">
+                <h4 class="titre">Raw vegetbales</h4>
+                <span class="lines"></span>
+                <div class="modal-body">
+                    <div class="v-raw">
+                        <input type="checkbox" value="salad" name="vege3">
+                        <img src="https://img.icons8.com/color/24/000000/lettuce.png">
+                    </div>
+                    <div class="v-raw">
+                        <input type="checkbox" value="tomato" name="vege3">
+                        <img src="https://img.icons8.com/emoji/24/000000/tomato-emoji.png">
+                    </div>
+                    <div class="v-raw">
+                        <input type="checkbox" value="onion" name="vege3">
+                        <img src="https://img.icons8.com/emoji/24/000000/onion-emoji.png">
+                    </div>
+                </div>
+                <span class="lines"></span>
+                <h4 class="titre">Burger size</h4>
+                <span class="lines"></span>
+                <div>
+                    <input type="radio" name="size3" id="medium3" value="4" checked>
+                    <label for="medium3">M: 4 $</label>
+                    <input type="radio" name="size3" id="large3" value="7">
+                    <label for="large3">L: 7 $</label>
+                </div>
+                <span class="lines"></span>
+                <button class="btn" onclick="addBurger(3)">Add to cart</button>
+                <span class="btn-close" onclick="closeM()">x</span> 
+            </div>
+        </div>
+        <div class="modal-bg4">
+            <div class="modal4">
+                <h4 class="titre">Raw vegetbales</h4>
+                <span class="lines"></span>
+                <div class="modal-body">
+                    <div class="v-raw">
+                        <input type="checkbox" value="salad" name="vege4">
+                        <img src="https://img.icons8.com/color/24/000000/lettuce.png">
+                    </div>
+                    <div class="v-raw">
+                        <input type="checkbox" value="tomato" name="vege4">
+                        <img src="https://img.icons8.com/emoji/24/000000/tomato-emoji.png">
+                    </div>
+                    <div class="v-raw">
+                        <input type="checkbox" value="onion" name="vege4">
+                        <img src="https://img.icons8.com/emoji/24/000000/onion-emoji.png">
+                    </div>
+                </div>
+                <span class="lines"></span>
+                <h4 class="titre">Burger size</h4>
+                <span class="lines"></span>
+                <div>
+                    <input type="radio" name="size4" id="medium4" value="5" checked>
+                    <label for="medium4">M: 5 $</label>
+                    <input type="radio" name="size4" id="large4" value="8">
+                    <label for="large4">L: 8 $</label>
+                </div>
+                <span class="lines"></span>
+                <button class="btn" onclick="addBurger(4)">Add to cart</button>
+                <span class="btn-close" onclick="closeM()">x</span> 
+            </div>
+        </div>
+        <script>
+            // modal background
+            var bg1 = document.querySelector('.modal-bg1');
+            var bg2 = document.querySelector('.modal-bg2');
+            var bg3 = document.querySelector('.modal-bg3');
+            var bg4 = document.querySelector('.modal-bg4');
+            // backgrounds list
+            bgList = [bg1, bg2, bg3, bg4];
+            // select burger 
+            function choose(n) {
+                bg = bgList[n-1];
+                bg.classList.add('modal');
+            }
+            // close modal
+            function closeM() {
+                bg.classList.remove('modal'); 
+            }
+            // List of burgers added to the cart
+            itemList = document.getElementById('items');
+            // Sum of burgers in shopping cart
+            total = 0;
+            bill = document.getElementById('total');
+            // article id (article is the burger added to cart)
+            artId = 0;
+            // Add burgers to the cat
+            function addBurger(n) {
+                // name of burger
+                burId = 'burger' + n;
+                burger = document.getElementById(burId).innerHTML;
+                console.log(burger);
+                // Price and size of burger
+                si = 'size' + n;
+                pr = document.getElementsByName(si);
+                price = pr[0].value;
+                size = 'M ' + price;
+                if (pr[1].checked) {
+                    price = pr[1].value;
+                    size = 'L ' + price; 
+                }
+                // raw vegetbales 
+                vege = 'vege' + n; 
+                v_raw = document.getElementsByName(vege);
+                raw_vege = '';
+                v_raw.forEach(element => {
+                    if (element.checked) {
+                        raw_vege += element.value + ' '; 
+                    }
+                });
+                if (raw_vege !== '') {
+                    raw_vege = '<br>' + raw_vege;
+                }
+                // article id
+                artId += 1;
+                bId = 'article' + artId;
+                // Add selected Burger to cart
+                // I will add id to li
+                // I will add price to li (article)
+                itemList.innerHTML += '<li id="' + bId + '" data-price="' +price + '">' 
+                                    + burger + ' : ' + size + ' $'
+                                    + raw_vege + '</li>';
+                // I will add a button with removeBur function to li (article)
+                // Be carefull to '' and ""
+                document.getElementById(bId).innerHTML += '<button onclick="removeBur('+"'"+bId+"'"+')">x</button>'
+                // update bill
+                total += Number(price);
+                bill.innerHTML = 'Total: ' + total + ' $'; 
+            }
+            // Remove Burger from cart
+            // We need id of article and the price of article
+            function removeBur(bId) {
+                article = document.getElementById(bId);
+                // Update the bill before removing the article
+                pri = article.dataset.price;
+                article.remove();
+                total -= Number(pri); 
+                bill.innerHTML = 'Total: ' + total + ' $';
+            }
+        </script>
+    </body>
+</html>
